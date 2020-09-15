@@ -15,7 +15,6 @@ Requirements:
 
 argp = argparse.ArgumentParser()
 argp.add_argument('--max_convos', default=25000, type=int, help='maximum number of conversations to be included')
-argp.add_argument('--max_samples', default=25000, type=int, help='dummy')
 argp.add_argument('--max_length', default=40, type=int, help='maximum number of words per sentence')
 argp.add_argument('--batch_size', default=64, type=int, help='number of conversations to be used per batch')
 argp.add_argument('--num_layers', default=2, type=int, help='number of layers')
@@ -28,8 +27,6 @@ argp.add_argument('--epochs', default=20, type=int, help='number of epochs')
 argp.add_argument('--tf_seed', default=1234, type=int, help='random seed for tensorflow operations')
 argp.add_argument('--max_vocab_size', default=2**15, type=int, help='maximum size of the vocabulary')
 argp.add_argument('--warmup_steps', default=4000, type=int, help='warm up steps for the Learning Rate Schedule')
-argp.add_argument('--vocab_size', default=500, type=int, help='dummy')
-argp.add_argument('--val', default=1, type=int, help='dummy')
 hyperparams = argp.parse_args()
 
 

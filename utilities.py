@@ -72,7 +72,7 @@ class DataUtilities:
 
 class ScaledDotProductAttention:
     """Calculate the scaled dot product attention. The formula for calculating the scaled dot product attention is :
-    SDPA = softmax[(Q . K) / (D ** 0.5)] . V
+    ScaledDotProductAttention = softmax[(Q . K) / (D ** 0.5)] . V
     Mask is optional.
     """
 
@@ -218,7 +218,6 @@ class Decoder:
                                                      'value': self.dl_inputs,
                                                      'mask': self.dl_padding_mask
                                                      })
-#        self.dl_attn1 = tf.keras.layers.Dropout(config.hyperparams.dropout)(self.dl_attn1)
         self.dl_attn1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)(self.dl_attn1 + self.dl_inputs)
         self.dl_attn2 = MultiHeadAttention()(inputs={'query': self.dl_attn1,
                                                      'key': self.dl_en_outputs,

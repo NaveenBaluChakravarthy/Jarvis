@@ -40,7 +40,6 @@ if __name__ == '__main__':
     tf.random.set_seed(config.hyperparams.tf_seed)
     data_util = DataUtilities()
     dataset, tokenizer = data_util.tokenize()
-    tokenizer.save_to_file('jarvis_tokenizer')
 
     jarvis = Transformer().transformer()
     optimizer = tf.keras.optimizers.Adam(CustomSchedule(), beta_1=0.9, beta_2=0.98, epsilon=1e-9)

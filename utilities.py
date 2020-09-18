@@ -62,7 +62,6 @@ class DataUtilities:
         self.dataset = tf.data.Dataset.from_tensor_slices(({'XfIn': self.tokenized_questions,
                                                             'XfDeIn': self.tokenized_answers[:, :-1]},
                                                            self.tokenized_answers[:, 1:]))
-
         self.dataset = self.dataset.cache()
         self.dataset = self.dataset.shuffle(len(self.tokenized_questions))
         self.dataset = self.dataset.batch(config.hyperparams.batch_size)
@@ -216,7 +215,7 @@ class Decoder:
         self.dl_attn1 = MultiHeadAttention()(inputs={'query': self.dl_inputs,
                                                      'key': self.dl_inputs,
                                                      'value': self.dl_inputs,
-                                                     'mask': self.dl_padding_mask
+                                                     'mask': self.dl_foresight_mask
                                                      })
         self.dl_attn1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)(self.dl_attn1 + self.dl_inputs)
         self.dl_attn2 = MultiHeadAttention()(inputs={'query': self.dl_attn1,
@@ -234,7 +233,7 @@ class Decoder:
                               outputs=self.dl_outputs)
 
     def decoder(self):
-        self.de_inputs = tf.keras.Input(shape=(None, config.hyperparams.d_model))
+        self.de_inputs = tf.keras.Input(shape=(None,))
         self.de_en_outputs = tf.keras.Input(shape=(None, config.hyperparams.d_model))
         self.de_foresight_mask = tf.keras.Input(shape=(1, None, None))
         self.de_padding_mask = tf.keras.Input(shape=(1, 1, None))
@@ -259,25 +258,25 @@ class Transformer:
         self.pad_mask, self.foresight_mask, self.seq_len, self.pad_mask2 = None, None, None, None
         self.xf_outputs = None
 
-    def block_padding(self, x):
+    def post_padding(self, x):
         self.pad_mask = tf.cast(tf.math.equal(x, 0), tf.float32)
         return self.pad_mask[:, tf.newaxis, tf.newaxis, :]
 
     def block_foresight(self, x):
         self.seq_len = tf.shape(x)[1]
         self.foresight_mask = 1 - tf.linalg.band_part(tf.ones((self.seq_len, self.seq_len)), -1, 0)
-        self.pad_mask2 = self.block_padding(x)
+        self.pad_mask2 = self.post_padding(x)
         return tf.maximum(self.foresight_mask, self.pad_mask2)
 
     def transformer(self):
         self.xf_inputs = tf.keras.Input(shape=(None,), name='XfIn')
         self.xf_de_inputs = tf.keras.Input(shape=(None,), name='XfDeIn')
         self.xf_en_padding_mask = tf.keras.layers.Lambda(
-                            self.block_padding, output_shape=(1, 1, None), name='XfEnPM')(self.xf_inputs)
+                            self.post_padding, output_shape=(1, 1, None), name='XfEnPM')(self.xf_inputs)
         self.xf_foresight_mask = tf.keras.layers.Lambda(
                             self.block_foresight, output_shape=(1, None, None), name='XfFm')(self.xf_de_inputs)
         self.xf_de_padding_mask = tf.keras.layers.Lambda(
-                            self.block_padding, output_shape=(1, 1, None), name='XfDePm')(self.xf_inputs)
+                            self.post_padding, output_shape=(1, 1, None), name='XfDePm')(self.xf_inputs)
         self.xf_en_outputs = Encoder().encoder()(inputs=[self.xf_inputs, self.xf_en_padding_mask])
         self.xf_de_outputs = Decoder().decoder()(
             inputs=[self.xf_de_inputs, self.xf_en_outputs, self.xf_foresight_mask, self.xf_de_padding_mask])

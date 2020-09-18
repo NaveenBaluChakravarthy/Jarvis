@@ -40,7 +40,7 @@ class DataUtilities:
         for (question, answer) in self.qnatuples:
             self.questions.append(self.preprocess(question))
             self.answers.append(self.preprocess(answer))
-            if config.hyperparams.max_convos != 0 and len(self.questions) >= config.hyperparams.max_convos:
+            if len(self.questions) >= config.hyperparams.max_convos:
                 break
         self.tokenizer = tfds.features.text.SubwordTextEncoder.build_from_corpus(
             self.questions + self.answers, target_vocab_size=config.hyperparams.max_vocab_size)
@@ -54,7 +54,8 @@ class DataUtilities:
             if len(self.qns) <= config.hyperparams.max_length and len(self.ans) <= config.hyperparams.max_length:
                 self.tokenized_questions.append(self.qns)
                 self.tokenized_answers.append(self.ans)
-
+        print(len(self.tokenized_questions))
+        print(len(self.tokenized_answers))
         self.tokenized_questions = tf.keras.preprocessing.sequence.pad_sequences(
             self.tokenized_questions, maxlen=config.hyperparams.max_length, padding='post')
         self.tokenized_answers = tf.keras.preprocessing.sequence.pad_sequences(

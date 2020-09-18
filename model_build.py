@@ -44,12 +44,12 @@ if __name__ == '__main__':
     jarvis = Transformer().transformer()
     optimizer = tf.keras.optimizers.Adam(CustomSchedule(), beta_1=0.9, beta_2=0.98, epsilon=1e-9)
     jarvis.compile(optimizer, loss=loss_function, metrics=[accuracy])
-    jarvis.fit(dataset, epochs=config.hyperparams.epochs)
+    jarvis.fit(dataset, epochs=config.hyperparams.epochs, verbose=2)
 
     txt = 'who is the father of tony'
     txt = tf.expand_dims(config.hyperparams.start_token + tokenizer.encode(txt) + config.hyperparams.stop_token, axis=0)
-    outs = tf.expand_dims(config.hyperparams.start_token, 0)
-    predictions = jarvis(txt, outs)
+    outs = tf.expand_dims(config.hyperparams.start_token, axis=0)
+    predictions = jarvis([txt, outs])
     predictions = predictions[:, -1:, :]
     predicted_id = tf.cast(tf.argmax(predictions, axis=-1), tf.int32)
     outs = tf.concat([outs, predicted_id], axis=-1)

@@ -14,9 +14,9 @@ Requirements:
 
 
 argp = argparse.ArgumentParser()
-argp.add_argument('--max_convos', default=25000, type=int, help='maximum number of conversations to be included')
-argp.add_argument('--max_length', default=40, type=int, help='maximum number of words per sentence')
-argp.add_argument('--batch_size', default=64, type=int, help='number of conversations to be used per batch')
+argp.add_argument('--max_convos', default=10000, type=int, help='maximum number of conversations to be included')
+argp.add_argument('--max_length', default=100, type=int, help='maximum number of words per sentence')
+argp.add_argument('--batch_size', default=64, type=int, help='number of conversations to be used per training batch')
 argp.add_argument('--num_layers', default=2, type=int, help='number of layers')
 argp.add_argument('--num_units', default=512, type=int, help='input dimensions of the final linear layer')
 argp.add_argument('--d_model', default=256, type=int, help='dimensions of the model')

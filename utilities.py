@@ -7,7 +7,12 @@ Author: Naveen Chakravarthy Balasubramanian
 import re
 import json
 import config
+import random
+random.seed(123)
+import numpy as np
+np.random.seed(123)
 import tensorflow as tf
+tf.random.set_seed(123)
 import tensorflow_datasets as tfds
 
 

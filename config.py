@@ -23,7 +23,7 @@ argp.add_argument('--d_model', default=256, type=int, help='dimensions of the mo
 argp.add_argument('--num_heads', default=8, type=int, help='number of heads the QKV is to be split into')
 argp.add_argument('--dropout', default=0.1, type=float, help='dropout ratio')
 argp.add_argument('--activation', default='relu', type=str, help='activation function')
-argp.add_argument('--epochs', default=20, type=int, help='number of epochs')
+argp.add_argument('--epochs', default=2, type=int, help='number of epochs')
 argp.add_argument('--tf_seed', default=1234, type=int, help='random seed for tensorflow operations')
 argp.add_argument('--max_vocab_size', default=2**15, type=int, help='maximum size of the vocabulary')
 argp.add_argument('--warmup_steps', default=4000, type=int, help='warm up steps for the Learning Rate Schedule')

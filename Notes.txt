@@ -1,0 +1,17 @@
+Training:
+    1. Json - Dataset
+
+Implementation:
+    1. Json - Word Contractions, Aliases, Named Entities
+
+Research:
+    1. tf.random.set_seed
+    2. Attention is all you need - paper at arxiv
+    3. Multidimensional Matrix transpose visualization
+    4. Jalammar Github
+
+Pending:
+    1. Transformer as class
+    2. Refine answers to have a length less than 40
+    3. Revise the gender in the spreadsheet
+    4. assert self.d_model % self.num_heads == 0

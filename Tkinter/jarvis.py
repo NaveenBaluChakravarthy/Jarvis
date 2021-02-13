@@ -44,7 +44,7 @@ def interact1():
             jarvislog.write(jar1ans)
         else:
             #returned_answer = "Hello"
-            returned_answer = ans.generate_answer(
+            returned_answer = ans.generate_answer(inpt)
             jar2ans = f'Jarvis : {returned_answer}\n\n'
             txt_chat.insert(tk.END, userans, 'user')
             jarvislog.write(userans)

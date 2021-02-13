@@ -9,8 +9,8 @@ import json
 import random
 import tkinter as tk
 import tkinter.font as fnt
-import answer_fetcher as ans
 import tkinter.messagebox as msgbox
+from answer_fetcher import AnswerFetcher as ans
 
 # Custom Parameters
 
@@ -43,7 +43,8 @@ def interact1():
             txt_chat.insert(tk.END, jar1ans, 'jarvis')
             jarvislog.write(jar1ans)
         else:
-            returned_answer = "Hello"
+            #returned_answer = "Hello"
+            returned_answer = ans.generate_answer(
             jar2ans = f'Jarvis : {returned_answer}\n\n'
             txt_chat.insert(tk.END, userans, 'user')
             jarvislog.write(userans)
@@ -64,6 +65,9 @@ with open('D:\Code\Jarvis\intents.json') as file:
 
 # Initialize the Chat History Log
 jarvislog = open('JarvisChatLog.txt', 'a')
+
+# Constants
+inpstd = ['jarvis', 'buddy', 'dude']
 
 # Designing the interface
 window = tk.Tk()

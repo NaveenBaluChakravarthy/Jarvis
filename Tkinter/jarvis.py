@@ -12,7 +12,8 @@ import tkinter.font as fnt
 import tkinter.messagebox as msgbox
 from answer_fetcher import AnswerFetcher as ans
 
-# Custom Parameters
+# Load AnswerFetcher
+ans = AnswerFetcher()
 
 def winprotocol():
     """Window Protocol"""

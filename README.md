@@ -1,4 +1,13 @@
 # Jarvis
-Transformer Based Chatbot for answering questions about Marvel Cinematic Universe.
 
-Inspired from tutorials on tensorflow.org
+## Data
+
+Generate data and intents
+
+## Build
+
+Build the transformer model, train and save as h5 model
+
+## Run
+
+Deploy and test the model. Two ways [Colab, Tkinter]

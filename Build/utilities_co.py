@@ -20,7 +20,6 @@ class DataUtilities:
 
     def __init__(self):
         """Importing the data from a json and initializing the variables used in the class. """     
-        self.qnatuples = C_data['Data']
         self.tokenized_questions = []
         self.tokenized_answers = []
         self.tokenizer = None
@@ -37,11 +36,18 @@ class DataUtilities:
 
         return string
 
-    def tokenize(self):
+    def tokenize(self, C_data):
         """Tokenizing, encoding and padding to form the dataset for model training. """
-        for (question, answer) in self.qnatuples:
+        for item in C_data["Data"]:
+            print(item)
+            bnc += 1
+            if bnc == 6:
+            break
+        for [question, answer] in C_data["Data"]:
             self.questions.append(self.preprocess(question))
+            print('Question' + question)
             self.answers.append(self.preprocess(answer))
+            print('Answer' + answer)
             if len(self.questions) >= C_max_convos:
                 break
         self.tokenizer = tfds.features.text.SubwordTextEncoder.build_from_corpus(

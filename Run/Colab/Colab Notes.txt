@@ -1,5 +1,0 @@
-Define C_ constants from config
-Change config.hyperparams. to C_
-Remove config import
-
-Because Colab does not support Argparse

@@ -1,1 +1,1 @@
-worker: python jarvis.py
+web: gunicorn app:app
